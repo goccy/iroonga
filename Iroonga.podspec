@@ -1,15 +1,14 @@
 Pod::Spec.new do |s|
+  root = "/Users/masaaki.goshima/Development/iroonga"
   s.name         = "Iroonga"
-  s.version      = "1.0.0"
+  s.version      = "0.0.1"
   s.summary      = "Groonga for iOS"
   s.description  = ""
   s.homepage     = "http://groonga.org"
   s.author       = { "goccy" => "goccy54@gmail.com" }
   s.source       = { :git => "https://github.com/goccy/iroonga" }
   s.requires_arc = true
-  s.public_header_files = "lib/include/**/*.h"
-  s.source_files = "config.h"
-  header_search_path = "lib/include lib/include/groonga lib/src"
+  header_search_path = "#{root}/lib/include #{root}/lib/include/groonga #{root}/lib/src"
   s.prefix_header_contents =<<PREFIX_HEADER_CONTENTS
 #define HAVE_STDLIB_H
 #define HAVE_SYS_TYPES_H
@@ -63,6 +62,14 @@ PREFIX_HEADER_CONTENTS
   s.xcconfig = {
     HEADER_SEARCH_PATHS:  header_search_path,
   }
+
+  s.ios.frameworks = 'CoreLocation'
+
+  s.subspec 'Iroonga' do |iroonga|
+    iroonga.subspec 'Location' do |loc|
+      loc.source_files = "Iroonga/Location/*.{h,m}"
+    end
+  end
 
   s.subspec 'lib' do |lib|
     lib.subspec 'include' do |inc|
